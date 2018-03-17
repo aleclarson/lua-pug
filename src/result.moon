@@ -1,0 +1,96 @@
+{:Stack, :escape, :repr} = require 'pug.utils'
+{:concat} = table
+
+noop = ->
+
+-- HTML response
+class PugResult
+  new: (opts) =>
+    @len = 0
+    @html = {'<!DOCTYPE html>', '\n'}
+
+    -- Entry path
+    @path = opts.path
+
+    -- File reference resolver
+    @resolve = opts.resolve or noop
+
+    -- Template mixins
+    @mixins = opts.mixins or {}
+
+    -- Global scope
+    @globals = opts.globals or {}
+
+    -- Global metatable
+    @global_mt = __index: @globals
+
+    -- Current scope
+    @scope = @globals
+
+    -- Dynamic scope
+    @env = setmetatable {_G: @scope},
+      __index: (_, k) -> @scope[k]
+      __newindex: (_, k, v) -> @scope[k] = v
+
+  -- Append a string.
+  push: (value) =>
+    if value ~= nil -- nil is ignored
+      i = @len + 1
+      @html[i] = value
+      @len = i
+
+  push_env: =>
+    @scope = setmetatable {}, __index: @scope
+
+  pop_env: =>
+    @scope = getmetatable(@scope).__index
+
+  -- NOTE: Values are *not* auto-escaped.
+  attrs: (attrs, ...) =>
+    attrs = merge_attrs attrs, {...}
+    for name, val in pairs attrs
+
+      if val == true
+        @push ' '
+        @push name
+
+      elseif val and val ~= ''
+        @push ' '
+        @push name
+        @push '="'
+        @push repr val
+        @push '"'
+
+  call: (id) =>
+    setfenv(@funcs[id], @env)!
+
+  mixin: (name, args, ...) =>
+
+    -- Remember the previous scope.
+    caller = @scope
+
+    -- Mixins have access to globals and their own scope.
+    @scope = setmetatable {}, @global_mt
+
+    -- Set the mixin environment.
+    mixin = setfenv @mixins[name], @env
+
+    -- Prepare the `attributes` variable.
+    attrs = merge_attrs nil, {...}
+
+    -- Auto-escape any string values.
+    for name, val in pairs attrs
+      if type(val) == 'string'
+        attrs[name] = escape val
+
+    -- Mix it in.
+    mixin attrs, unpack args
+
+    -- Reset the scope.
+    @scope = caller
+
+  include: (path) ->
+    path = @resolve path, @path
+    -- TODO: Create a `Result` instance for every included module.
+
+return PugResult
