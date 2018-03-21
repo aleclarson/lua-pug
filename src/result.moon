@@ -42,10 +42,10 @@ class PugResult
       @html[i] = value
       @len = i
 
-  push_env: =>
+  enter: =>
     @scope = setmetatable {}, __index: @scope
 
-  pop_env: =>
+  leave: =>
     @scope = getmetatable(@scope).__index
 
   -- NOTE: Values are *not* auto-escaped.
