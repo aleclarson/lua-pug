@@ -6,8 +6,10 @@ noop = ->
 -- HTML response
 class PugResult
   new: (opts) =>
-    @len = 0
-    @html = {'<!DOCTYPE html>', '\n'}
+
+    unless opts.parent
+      @html = {'<!DOCTYPE html>', '\n'}
+      @len = 2
 
     -- Entry path
     @path = opts.path
@@ -89,8 +91,12 @@ class PugResult
     -- Reset the scope.
     @scope = caller
 
-  include: (path) ->
-    path = @resolve path, @path
-    -- TODO: Create a `Result` instance for every included module.
+  include: (id) =>
+    dep = @resolve id, @path
+    dep_t = type dep
+    if dep_t == 'function'
+      dep parent: self
+    elseif dep_t == 'string'
+      @push dep
 
 return PugResult
