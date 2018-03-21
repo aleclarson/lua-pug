@@ -1,15 +1,14 @@
-{:Stack, :escape, :repr} = require 'pug.utils'
-{:concat} = table
-
-noop = ->
+:Stack, :add_index, :escape, :noop, :repr = require 'pug.utils'
+:merge_attrs = require 'pug.attrs'
+:concat = table
 
 -- HTML response
 class PugResult
   new: (opts) =>
 
     unless opts.parent
-      @html = {'<!DOCTYPE html>', '\n'}
-      @len = 2
+      @html = {}
+      @len = 0
 
     -- Entry path
     @path = opts.path
