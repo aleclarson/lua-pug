@@ -9,7 +9,7 @@ return (opts) ->
     :render, :mixins = opts
   elseif type(opts.template) == 'string'
     loader = loadstring opts.template
-    :render, :mixins = setfenv(loader, {})!
+    render, mixins = setfenv(loader, {})!
   else
     error "`opts` must have `render` or `template`"
 
