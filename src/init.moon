@@ -23,12 +23,10 @@ return (opts) ->
 
   return (opts = {}) ->
 
-    if path and not opts.path
-      opts.path = path
-
     if resolve and not opts.resolve
       opts.resolve = resolve
 
+    opts.path = path
     res = PugResult opts
 
     -- Provide any shared mixins and globals.
