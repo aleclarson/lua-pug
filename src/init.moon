@@ -3,18 +3,19 @@ runtime = require 'pug.runtime'
 utils = require 'pug.utils'
 
 return (opts) ->
-  local render
+  local render, mixins
 
   if type(opts.render) == 'function'
-    render = opts.render
+    :render, :mixins = opts
   elseif type(opts.template) == 'string'
-    render = loadstring(opts.template)!
+    loader = loadstring opts.template
+    :render, :mixins = setfenv(loader, {})!
   else
     error "`opts` must have `render` or `template`"
 
   {:concat} = table
   {:add_index} = utils
-  {:path, :resolve, :mixins, :globals} = opts
+  {:path, :resolve, :globals} = opts
 
   if globals
     add_index globals, runtime
