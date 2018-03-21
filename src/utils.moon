@@ -55,6 +55,8 @@ get_keys = (tbl) ->
     keys[i], i = key, i + 1
   keys
 
+noop = ->
+
 -- Lua equivalent of Python `repr`
 repr = (str) -> ('%q')\format(str)\gsub '\\\n', '\\n'
 
@@ -63,5 +65,6 @@ return {
   :add_index
   :escape
   :get_keys
+  :noop
   :repr
 }

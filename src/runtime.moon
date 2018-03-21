@@ -1,7 +1,5 @@
-{:escape} = require 'pug.utils'
+{:escape, :noop} = require 'pug.utils'
 {:concat} = table
-
-noop = ->
 
 -- The `runtime` is the fenv for render functions.
 runtime =
