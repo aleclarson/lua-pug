@@ -13,9 +13,9 @@ return (opts) ->
   else
     error "`opts` must have `render` or `template`"
 
-  {:concat} = table
-  {:add_index} = utils
-  {:path, :resolve, :globals} = opts
+  :concat = table
+  :add_index = utils
+  :path, :resolve, :globals = opts
 
   if globals
     add_index globals, runtime

@@ -36,10 +36,10 @@ class PugResult
       __newindex: (_, k, v) -> @scope[k] = v
 
   -- Append a string.
-  push: (value) =>
-    if value ~= nil -- nil is ignored
+  push: (str) =>
+    if str ~= nil -- nil is ignored
       i = @len + 1
-      @html[i] = value
+      @html[i] = str
       @len = i
 
   enter: =>
