@@ -34,8 +34,7 @@ return (opts) ->
     add_index res.globals, globals
 
     -- Render the environment.
-    setfenv render, res.env
-    render res, res.env, res.globals
+    setfenv(render, res.env)!
 
     -- Return the HTML string.
     concat res.html, ''
