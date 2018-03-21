@@ -3,10 +3,15 @@
 
 -- The `runtime` is the fenv for render functions.
 runtime =
-  :tostring
+  __string: (val) ->
+    -- Preserve nil/true/false
+    if val and val ~= true
+      return tostring val
 
-  escape: (val) ->
-    escape tostring val
+  __escape: (val) ->
+    -- Preserve nil/true/false
+    if val and val ~= true
+      return escape tostring val
 
   __each: (obj) ->
     if obj == nil
