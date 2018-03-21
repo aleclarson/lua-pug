@@ -26,7 +26,7 @@ runtime =
     if type(obj) == 'table'
       prev, next = 0, pairs obj
       return ->
-        key, val = next obj, prev
+        prev, val = next obj, prev
         return val
     return obj
 
