@@ -9,10 +9,8 @@ return (opts) ->
     render = opts.render
   elseif type(opts.template) == 'string'
     render = loadstring(opts.template)!
-  elseif type(opts.path) == 'string'
-    render = require opts.path
   else
-    error "`opts` must have `render`, `template`, or `path`"
+    error "`opts` must have `render` or `template`"
 
   {:concat} = table
   {:add_index} = utils
