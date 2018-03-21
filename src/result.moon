@@ -29,7 +29,9 @@ class PugResult
     @scope = @globals
 
     -- Dynamic scope
-    @env = setmetatable {_G: @scope},
+    env = _R: self, _G: @globals
+    env._E = env
+    @env = setmetatable env,
       __index: (_, k) -> @scope[k]
       __newindex: (_, k, v) -> @scope[k] = v
 
