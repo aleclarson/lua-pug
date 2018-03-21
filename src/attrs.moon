@@ -48,6 +48,9 @@ merge_attrs = (a, b) ->
       -- Use the `b` value of other attributes.
       else a[name] = val
 
+  -- Return the first table.
+  return a
+
 exports = {}
 
 exports.merge_attrs = (attrs, blocks) ->
