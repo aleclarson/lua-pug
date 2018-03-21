@@ -1,4 +1,4 @@
-# lua-pug v0.0.1
+# lua-pug v0.1.0
 
 This package generates HTML from a https://github.com/pugjs/pug AST.
 
