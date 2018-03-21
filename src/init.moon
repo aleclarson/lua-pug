@@ -7,7 +7,7 @@ return (opts) ->
 
   if type(opts.render) == 'function'
     render = opts.render
-  if type(opts.template) == 'string'
+  elseif type(opts.template) == 'string'
     render = loadstring(opts.template)!
   elseif type(opts.path) == 'string'
     render = require opts.path
