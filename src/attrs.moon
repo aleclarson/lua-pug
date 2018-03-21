@@ -1,8 +1,6 @@
 {:get_keys, :Stack} = require 'pug.utils'
 {:concat} = table
 
--- TODO: Use platform-agnostic string.split
-
 -- TODO: Support aliases and auto-suffixing.
 to_css = (values) ->
   props = Stack!
@@ -10,10 +8,10 @@ to_css = (values) ->
     if value then props\push key .. ': ' .. tostring value
   return concat props, '; '
 
-parse_css = (pairs, style) ->
-  for pair in *pairs\split ';'
-    pair = pair\split ':'
-    style[pair[1]] = pair[2]
+parse_css = (props, style) ->
+  for prop in props\gmatch '[^;]+'
+    prop = prop\gmatch '[^:%s]+'
+    style[prop!] = prop!
   return style
 
 -- TODO: Support class map (where key is used if non-falsy value)
@@ -27,7 +25,7 @@ merge_attrs = (a, b) ->
       if name == 'class'
         a.class = {} if a.class == nil
         if val_t == 'string'
-          for name in *val\split ' '
+          for name in val\gmatch '%S+'
             a.class[val] = true if name ~= ''
         else if val_t == 'table'
           for name in *val
