@@ -60,9 +60,8 @@ class PugResult
       elseif val and val ~= ''
         @push ' '
         @push name
-        @push '="'
+        @push '='
         @push repr val
-        @push '"'
 
   call: (id) =>
     setfenv(@funcs[id], @env)!
