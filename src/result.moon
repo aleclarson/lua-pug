@@ -93,10 +93,10 @@ class PugResult
 
   include: (id) =>
     dep = @resolve id, @path
-    dep_t = type dep
-    if dep_t == 'function'
-      dep parent: self
-    elseif dep_t == 'string'
-      @push dep
+    dep parent: self
+
+  rawinclude: (id) =>
+    dep = @resolve id, @path
+    @push dep
 
 return PugResult
