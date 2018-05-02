@@ -1,5 +1,5 @@
-:get_keys, :Stack = require 'pug.utils'
-:concat = table
+{:get_keys, :Stack} = require 'pug.utils'
+{:concat} = table
 
 -- TODO: Support aliases and auto-suffixing.
 to_css = (values) ->

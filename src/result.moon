@@ -1,6 +1,6 @@
-:Stack, :add_index, :escape, :noop, :repr = require 'pug.utils'
-:merge_attrs = require 'pug.attrs'
-:concat = table
+{:Stack, :add_index, :escape, :noop, :repr} = require 'pug.utils'
+{:merge_attrs} = require 'pug.attrs'
+{:concat} = table
 
 -- HTML response
 class PugResult
