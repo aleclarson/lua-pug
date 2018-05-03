@@ -3,6 +3,8 @@
 
 -- The `runtime` is the fenv for render functions.
 runtime =
+  :tostring
+  :escape
 
   __str: stringify
 
