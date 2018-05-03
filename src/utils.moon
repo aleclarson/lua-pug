@@ -78,8 +78,8 @@ stringify = (val) ->
     -- Coerce non-strings if possible.
     if val_t == 'table'
       assert coercable(val), 'cannot interpolate a table that has no __tostring metamethod'
-    elseif val_t ~= 'boolean'
-      error 'interpolation only works with strings, booleans, and tables'
+    elseif val_t ~= 'number' and val_t ~= 'boolean'
+      error 'interpolation only works with strings, numbers, booleans, and tables'
     return tostring val
 
 return {
