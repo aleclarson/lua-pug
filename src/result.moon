@@ -87,6 +87,9 @@ class PugResult
     -- Mix it in.
     mixin attrs, unpack args
 
+    -- Reset the mixin environment.
+    setfenv mixin, _G
+
     -- Reset the scope.
     @scope = caller
 
