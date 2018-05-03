@@ -43,6 +43,10 @@ assign = (dest, src) ->
   for key, value in pairs src
     dest[key] = value
 
+coercable = (val) ->
+  mt = getmetatable val
+  mt and mt.__tostring ~= nil
+
 escaped_chars =
   '&': '&amp;'
   '<': '&lt;'
@@ -64,12 +68,28 @@ noop = ->
 -- Lua equivalent of Python `repr`
 repr = (str) -> ('%q')\format(str)\gsub '\\\n', '\\n'
 
+stringify = (val) ->
+  -- "nil" is ignored.
+  if val ~= nil
+    val_t = type val
+    return val if val_t == 'string'
+    -- "cdata" and "userdata" are ignored.
+    return if val_t\match 'data$'
+    -- Coerce non-strings if possible.
+    if val_t == 'table'
+      assert coercable(val), 'cannot interpolate a table that has no __tostring metamethod'
+    elseif val_t ~= 'boolean'
+      error 'interpolation only works with strings, booleans, and tables'
+    return tostring val
+
 return {
   :Stack
   :add_index
   :assign
+  :coercable
   :escape
   :get_keys
   :noop
   :repr
+  :stringify
 }

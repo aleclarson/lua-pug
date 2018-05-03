@@ -1,17 +1,18 @@
-{:escape, :noop} = require 'pug.utils'
+{:escape, :noop, :stringify} = require 'pug.utils'
 {:concat} = table
 
 -- The `runtime` is the fenv for render functions.
 runtime =
-  __string: (val) ->
-    -- Preserve nil/true/false
-    if val and val ~= true
-      return tostring val
 
-  __escape: (val) ->
-    -- Preserve nil/true/false
-    if val and val ~= true
-      return escape tostring val
+  __str: stringify
+
+  __esc: (val) -> escape stringify val
+
+  __attr: (val) -> -- Preserve nil/true/false
+    val and val ~= true and stringify(val) or val
+
+  __esca: (val) -> -- Preserve nil/true/false
+    val and val ~= true and escape(stringify val) or val
 
   __each: (obj) ->
     if obj == nil
