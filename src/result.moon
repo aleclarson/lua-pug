@@ -94,9 +94,11 @@ class PugResult
     dep = self.resolve ref, @path
     if type(dep) == 'function' then dep parent: self
     elseif type(dep) == 'table' then assign @mixins, dep
+    else error "Unknown module '#{ref}' included from '#{@path}'"
 
-  rawinclude: (id) =>
-    dep = @resolve id, @path
-    @push dep
+  rawinclude: (ref) =>
+    dep = self.resolve ref, @path
+    if type(dep) == 'string' then @push dep
+    else error "Unknown module '#{ref}' included from '#{@path}'"
 
 return PugResult
