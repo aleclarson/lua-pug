@@ -49,9 +49,8 @@ class PugResult
     @scope = getmetatable(@scope).__index
 
   -- NOTE: Values are *not* auto-escaped.
-  attrs: (attrs, ...) =>
-    attrs = merge_attrs attrs, {...}
-    for name, val in pairs attrs
+  attrs: (...) =>
+    for name, val in pairs merge_attrs ...
 
       if val == true
         @push ' '
@@ -77,8 +76,8 @@ class PugResult
     -- Set the mixin environment.
     mixin = setfenv @mixins[name], @env
 
-    -- Prepare the `attributes` variable.
-    attrs = merge_attrs nil, {...}
+    -- Prepare the `attributes` value.
+    attrs = merge_attrs ...
 
     -- Auto-escape any string values.
     for name, val in pairs attrs

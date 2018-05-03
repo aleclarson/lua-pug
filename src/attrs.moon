@@ -53,21 +53,22 @@ merge_attrs = (a, b) ->
 
 exports = {}
 
-exports.merge_attrs = (attrs, blocks) ->
+exports.merge_attrs = (...) ->
+  attrs = {}
 
-  if type(attrs) == 'table'
-    attrs = merge_attrs {}, attrs
-  else attrs = {}
+  count = select '#', ...
+  if count ~= 0
 
-  for block in *blocks
-    if type(block) == 'table'
-      merge_attrs attrs, block
+    for i = 1, count
+      block = select i, ...
+      if type(block) == 'table'
+        merge_attrs attrs, block
 
-  if attrs.class
-    attrs.class = concat get_keys(attrs.class), ' '
+    if attrs.class
+      attrs.class = concat get_keys(attrs.class), ' '
 
-  if attrs.style
-    attrs.style = to_css attrs.style
+    if attrs.style
+      attrs.style = to_css attrs.style
 
   return attrs
 
