@@ -39,6 +39,10 @@ add_index = (a, b) ->
   else
     join_index mt, b
 
+assign = (dest, src) ->
+  for key, value in pairs src
+    dest[key] = value
+
 escaped_chars =
   '&': '&amp;'
   '<': '&lt;'
@@ -63,6 +67,7 @@ repr = (str) -> ('%q')\format(str)\gsub '\\\n', '\\n'
 return {
   :Stack
   :add_index
+  :assign
   :escape
   :get_keys
   :noop

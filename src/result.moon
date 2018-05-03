@@ -1,4 +1,4 @@
-{:Stack, :add_index, :escape, :noop, :repr} = require 'pug.utils'
+{:Stack, :add_index, :assign, :escape, :noop, :repr} = require 'pug.utils'
 {:merge_attrs} = require 'pug.attrs'
 {:concat} = table
 
@@ -90,9 +90,10 @@ class PugResult
     -- Reset the scope.
     @scope = caller
 
-  include: (id) =>
-    dep = @resolve id, @path
-    dep parent: self
+  include: (ref) =>
+    dep = self.resolve ref, @path
+    if type(dep) == 'function' then dep parent: self
+    elseif type(dep) == 'table' then assign @mixins, dep
 
   rawinclude: (id) =>
     dep = @resolve id, @path
